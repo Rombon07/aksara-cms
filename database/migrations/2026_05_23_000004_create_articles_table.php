@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('body');
             $table->string('thumbnail')->nullable();
-            $table->enum('status', ['draft', 'pending', 'published'])->default('draft');
+            $table->enum('status', ['draft', 'pending', 'published'])->default('draft')->index();
             $table->text('editor_notes')->nullable();
-            $table->timestamp('published_at')->nullable();
+            $table->timestamp('published_at')->nullable()->index();
             $table->timestamps();
         });
     }

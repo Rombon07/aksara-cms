@@ -18,7 +18,7 @@
             @foreach($articles as $article)
                 <article class="flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg transition-shadow duration-300 border border-gray-100">
                     <a href="{{ route('article.show', $article->slug) }}" class="shrink-0 relative h-48 bg-gray-200 overflow-hidden group block">
-                        <img class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ $article->image_url }}" alt="{{ $article->title }}">
+                        <img class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ $article->image_url }}" alt="{{ $article->title }}" loading="lazy">
                         <div class="absolute top-4 left-4">
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-white text-indigo-800 shadow-sm hover:bg-gray-50">
                                 {{ $article->category->name }}

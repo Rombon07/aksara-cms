@@ -15,30 +15,36 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($articles as $article)
-                    <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
-                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-48 object-cover">
+                    <article class="flex flex-col h-full bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100 group">
+                        <div class="relative h-48 overflow-hidden bg-gray-200 shrink-0">
+                            <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
                         
-                        <div class="p-6">
-                            <div class="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-1">{{ $article->category->name }}</div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $article->title }}</h3>
-                            <p class="text-sm text-gray-500 mb-4 line-clamp-3">{{ strip_tags($article->body) }}</p>
-                            <div class="text-xs text-gray-400 mb-6">
-                                By <span class="font-semibold">{{ $article->user->name }}</span> on {{ $article->created_at->format('M d, Y') }}
+                        <div class="p-6 flex flex-col flex-1">
+                            <div class="flex-1">
+                                <div class="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-1">{{ $article->category->name }}</div>
+                                <a href="{{ route('article.show', $article->slug) }}" target="_blank">
+                                    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition duration-200">{{ $article->title }}</h3>
+                                </a>
+                                <p class="text-sm text-gray-500 mb-4 line-clamp-3">{{ strip_tags($article->body) }}</p>
+                            </div>
+                            <div class="text-xs text-gray-400 mb-6 shrink-0">
+                                By <span class="font-semibold text-gray-700">{{ $article->user->name }}</span> on {{ $article->created_at->format('M d, Y') }}
                             </div>
 
-                            <div class="flex space-x-2 border-t pt-4 border-gray-100">
+                            <div class="flex space-x-3 pt-4 border-t border-gray-100 mt-auto shrink-0">
                                 <form action="{{ route('editor.publish', $article) }}" method="POST" class="flex-1">
                                     @csrf
-                                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm transition">
+                                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg text-sm transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 shadow-sm">
                                         Publish
                                     </button>
                                 </form>
-                                <button type="button" onclick="document.getElementById('reviseModal-{{ $article->id }}').classList.remove('hidden')" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded text-sm transition">
+                                <button type="button" onclick="document.getElementById('reviseModal-{{ $article->id }}').classList.remove('hidden')" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg text-sm transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 shadow-sm">
                                     Revise
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </article>
 
                     <!-- Revise Modal -->
                     <div id="reviseModal-{{ $article->id }}" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">

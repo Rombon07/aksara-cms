@@ -1,47 +1,21 @@
 @extends('layouts.public')
 
-@section('title', 'Beranda')
+@section('title', 'Your Library - Aksara')
 
 @section('content')
-
-<!-- Multi-Select Filter Form -->
-<div class="mb-6 sticky top-[64px] z-40 bg-gray-50 pt-4 pb-2 border-b border-gray-200">
-    <form id="filter-form" action="{{ route('home') }}" method="GET" x-data>
-        <div class="flex flex-col gap-3">
-            <!-- Filter by Content Type -->
-            <div class="flex items-center gap-1.5 overflow-x-auto scrollbar-hide">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider mr-1 shrink-0">Types</span>
-                
-                <label class="cursor-pointer shrink-0">
-                    <input type="checkbox" name="types[]" value="article" class="hidden" onchange="document.getElementById('filter-form').submit()" {{ in_array('article', request('types', [])) ? 'checked' : '' }}>
-                    <span class="px-3 py-1 rounded-full text-sm font-medium transition block border {{ in_array('article', request('types', [])) ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50' }}">Articles</span>
-                </label>
-                
-                <label class="cursor-pointer shrink-0">
-                    <input type="checkbox" name="types[]" value="ebook" class="hidden" onchange="document.getElementById('filter-form').submit()" {{ in_array('ebook', request('types', [])) ? 'checked' : '' }}>
-                    <span class="px-3 py-1 rounded-full text-sm font-medium transition block border {{ in_array('ebook', request('types', [])) ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50' }}">E-Books</span>
-                </label>
-            </div>
-
-            <!-- Filter by Category -->
-            <div class="flex items-center gap-1.5 overflow-x-auto scrollbar-hide pb-1">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider mr-1 shrink-0">Topics</span>
-                
-                @foreach($categories as $cat)
-                <label class="cursor-pointer shrink-0">
-                    <input type="checkbox" name="categories[]" value="{{ $cat->id }}" class="hidden" onchange="document.getElementById('filter-form').submit()" {{ in_array($cat->id, request('categories', [])) ? 'checked' : '' }}>
-                    <span class="px-3 py-1 rounded-full text-sm font-medium transition block border {{ in_array($cat->id, request('categories', [])) ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50' }}">{{ $cat->name }}</span>
-                </label>
-                @endforeach
-            </div>
-        </div>
-    </form>
+<div class="border-b border-gray-100 pb-4 mb-6 sticky top-[64px] bg-gray-50 z-40 pt-4">
+    <div class="flex items-center space-x-2 pb-4">
+        <h1 class="text-3xl font-bold text-gray-900 font-serif">Your Library</h1>
+    </div>
+    <nav class="-mb-px flex space-x-8">
+        <a href="#" class="border-gray-900 text-gray-900 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm transition">Saved reading</a>
+    </nav>
 </div>
 
-<!-- Main Feed Wrapped in White Card -->
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
     <div class="space-y-8">
-        @forelse($latestArticles as $article)
+        @forelse($bookmarks as $bookmark)
+            @php $article = $bookmark->article; @endphp
             <article class="group">
                 <div class="flex items-center space-x-2 text-xs mb-3">
                     <div class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-700 font-bold">
@@ -62,7 +36,6 @@
                 
                 <a href="{{ route('article.show', $article->slug) }}" class="block">
                     <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition tracking-tight">{{ $article->title }}</h3>
-                    <!-- Content text only, no thumbnail -->
                     <p class="text-gray-600 text-sm md:text-base line-clamp-3 leading-relaxed mb-4 font-serif">
                         {{ strip_tags($article->body) }}
                     </p>
@@ -86,14 +59,10 @@
                         @auth
                             <form action="{{ route('article.bookmark', $article->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="hover:text-gray-900 transition {{ ($article->is_bookmarked ?? false) ? 'text-indigo-600' : 'text-gray-500' }}">
-                                    <svg class="w-5 h-5" fill="{{ ($article->is_bookmarked ?? false) ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                                <button type="submit" class="hover:text-gray-900 transition text-indigo-600">
+                                    <svg class="w-5 h-5" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
                                 </button>
                             </form>
-                        @else
-                            <a href="{{ route('login') }}" class="hover:text-gray-900 transition text-gray-500">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
-                            </a>
                         @endauth
                     </div>
                 </div>
@@ -105,20 +74,15 @@
         @empty
             <div class="text-center py-20 text-gray-500">
                 <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-                <p class="text-lg font-medium text-gray-900">No content matches your filters.</p>
-                <p class="text-sm mt-1">Try selecting different topics or types.</p>
-                <a href="{{ route('home') }}" class="inline-block mt-4 text-indigo-600 font-semibold hover:underline">Clear all filters</a>
+                <p class="text-lg font-medium text-gray-900">Your library is empty.</p>
+                <p class="text-sm mt-1">Articles you save will appear here.</p>
+                <a href="{{ route('home') }}" class="inline-block mt-4 text-indigo-600 font-semibold hover:underline">Explore articles</a>
             </div>
         @endforelse
     </div>
 </div>
 
 <div class="mt-8 flex justify-center pb-12">
-    {{ $latestArticles->links() }}
+    {{ $bookmarks->links() }}
 </div>
-
-<style>
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-</style>
 @endsection

@@ -48,8 +48,27 @@ class User extends Authenticatable
         ];
     }
 
+    // Fungsi ini mendefinisikan relasi: Satu User bisa menulis banyak Article (1-to-Many).
     public function articles()
     {
         return $this->hasMany(Article::class);
+    }
+
+    // Fungsi ini mendefinisikan relasi: Satu User bisa menyukai banyak Article (1-to-Many).
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    // Fungsi ini mendefinisikan relasi: Satu User bisa menyimpan (bookmark) banyak Article (1-to-Many).
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+    // Fungsi ini mendefinisikan relasi: Satu User bisa menulis banyak Comment di berbagai Article (1-to-Many).
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

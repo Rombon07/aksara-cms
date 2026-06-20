@@ -1,4 +1,6 @@
 <x-guest-layout>
+    <!-- Form Registrasi User Baru -->
+    <!-- Secara default, user baru yang mendaftar melalui halaman ini akan diberikan peran (role) sebagai 'reader' -->
     <form method="POST" action="{{ route('register') }}">
         @csrf
 

@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('My Articles') }}
             </h2>
-            <a href="{{ route('journalist.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
+            <a href="{{ route('author.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
                 Write New Article
             </a>
         </div>
@@ -36,10 +36,23 @@
                                 @forelse($articles as $article)
                                     <tr class="hover:bg-gray-50 transition duration-150">
                                         <td class="px-6 py-4">
-                                            <div class="text-sm font-semibold text-gray-900">{{ $article->title }}</div>
-                                            @if($article->editor_notes && $article->status === 'draft')
-                                                <div class="text-xs text-red-600 mt-2 bg-red-50 p-2 rounded border border-red-100"><strong>Editor Note:</strong> {{ $article->editor_notes }}</div>
-                                            @endif
+                                            <div class="flex items-center space-x-4">
+                                                <div class="w-16 h-16 shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                                                    @if($article->image_url)
+                                                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
+                                                    @else
+                                                        <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div>
+                                                    <div class="text-sm font-semibold text-gray-900">{{ $article->title }}</div>
+                                                    @if($article->editor_notes && $article->status === 'draft')
+                                                        <div class="text-xs text-red-600 mt-2 bg-red-50 p-2 rounded border border-red-100"><strong>Editor Note:</strong> {{ $article->editor_notes }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
@@ -59,8 +72,8 @@
                                             {{ $article->created_at->format('M d, Y') }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="{{ route('journalist.edit', $article) }}" class="text-indigo-600 hover:text-indigo-900 mr-4 transition duration-150">Edit</a>
-                                            <form action="{{ route('journalist.destroy', $article) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?');">
+                                            <a href="{{ route('author.edit', $article) }}" class="text-indigo-600 hover:text-indigo-900 mr-4 transition duration-150">Edit</a>
+                                            <form action="{{ route('author.destroy', $article) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-600 hover:text-red-900 transition duration-150">Delete</button>
@@ -102,8 +115,8 @@
                                     <div class="text-xs text-red-600 bg-red-50 p-2.5 rounded-lg mb-4 border border-red-100"><strong>Editor Note:</strong> {{ $article->editor_notes }}</div>
                                 @endif
                                 <div class="flex justify-end space-x-4 pt-3 border-t border-gray-100">
-                                     <a href="{{ route('journalist.edit', $article) }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-semibold transition duration-200">Edit</a>
-                                     <form action="{{ route('journalist.destroy', $article) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?');">
+                                     <a href="{{ route('author.edit', $article) }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-semibold transition duration-200">Edit</a>
+                                     <form action="{{ route('author.destroy', $article) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?');">
                                          @csrf
                                          @method('DELETE')
                                          <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-semibold transition duration-200">Delete</button>
