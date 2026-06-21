@@ -1,86 +1,127 @@
-# Aksara Digital Publishing CMS
+# <p align="center">📖 Aksara Digital Publishing CMS</p>
 
-Aksara is a modern Digital Publishing Content Management System built with Laravel 11, Blade, and Tailwind CSS. It features a custom Role-Based Access Control (RBAC) system for Readers, Authors, and Editors, optimized media uploads, interactive user features, and a clean responsive public homepage.
+<p align="center">
+  <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1000&auto=format&fit=crop&q=80" alt="Aksara Banner" width="100%" style="border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);" />
+</p>
 
-## 🚀 Features
+---
 
-- **Custom RBAC:** Simple and secure roles: `editor`, `author`, and `reader`.
-- **Author Dashboard:** Create, edit, and submit articles or e-books for review. E-books support PDF file uploads.
-- **Editor Dashboard:** Review queue to publish pending submissions or send them back to the author with revision notes.
-- **Optimized Media & Serving:** 
-  - Automatic image resizing via Intervention Image (GD Driver).
-  - Custom media serving route to bypass symlink issues on local development environments (e.g., Windows/XAMPP).
-- **Interactive Reader Actions:** Logged-in readers can Like, Bookmark, and Comment on articles dynamically (handled with AJAX/JSON).
-- **Personal Reading Library:** A page for readers to manage and access their bookmarked articles.
-- **Search & Category Filtering:** Seamless search capability and category navigation.
+**Aksara** adalah sebuah platform *Content Management System (CMS) Digital Publishing* modern yang dirancang untuk menghadirkan pengalaman membaca, menulis, dan kurasi konten yang premium, dinamis, dan terstruktur. Aplikasi ini dibangun di atas fondasi **Laravel 11**, **Tailwind CSS**, **Alpine.js**, dan database **MySQL**.
 
-## 🛠 Prerequisites
+Sistem ini menerapkan **Role-Based Access Control (RBAC)** penuh yang membagi akses pengguna menjadi: **Tamu**, **Reader**, **Author (Penulis)**, **Editor (Redaksi)**, dan **Admin (System Administrator)**.
 
-To run this application, ensure you have:
-- PHP 8.2 or higher
-- Composer
-- Node.js & NPM
-- MySQL 8.0+ (running locally via XAMPP, Herd, etc.)
+---
 
-## 📦 Setup Instructions
+## 🌟 Fitur Utama (Premium Highlights)
 
-Follow these step-by-step instructions to set up the project locally:
+*   📊 **Dashboard Admin Visual (New):** Menyajikan data statistik real-time platform secara visual (Total Artikel, E-Book, Like, Komentar, & Pengguna), diagram persebaran kategori, aktivitas konten terbaru, serta daftar pendaftar terbaru dalam tata letak kartu gradien yang modern.
+*   👥 **Manajemen Pengguna Terpusat (Admin):** Hak akses penuh bagi Admin untuk mengelola akun pengguna, mengubah peran (*role*), mendaftarkan staf redaksi baru (*Author/Editor*), serta menghapus akun secara aman.
+*   📝 **Alur Kerja Redaksi (Author & Editor):** 
+    *   **Author:** Menulis draf artikel, mengunggah E-Book (berkas PDF & sampul), dan mengajukannya ke redaksi.
+    *   **Editor:** Mengulas antrean naskah yang masuk (*Review Queue*), menyetujui penerbitan (*Publish*), atau mengembalikannya ke draf disertai catatan revisi khusus.
+*   ⚡ **Interaksi AJAX Mulus & Cepat:** Fitur **Like (Apresiasi)**, **Bookmark (Simpan Bacaan)**, dan **Komentar (Balas Masukan)** secara dinamis tanpa memuat ulang halaman (*zero page refresh*), memanfaatkan integrasi khusus Alpine.js dan Laravel API.
+*   🌐 **Seeder Berbasis API Asli & Pemulihan Otomatis:**
+    *   Mengambil konten artikel secara dinamis dari **Dev.to API** untuk menyajikan artikel pemrograman/teknologi asli yang panjang, rapi, dan variatif.
+    *   Secara otomatis mengunduh e-book PDF asli dari internet (seperti panduan aksesibilitas W3C) dan memulihkan data tersebut dari folder penyimpanan (*storage auto-recovery*) setiap kali database di-seed.
+*   📖 **Pengalaman Membaca Premium:** Memanfaatkan modul `@tailwindcss/typography` kustom untuk rendering artikel yang bersih (layaknya Medium/Substack), dengan blok kode (*code blocks*) bergaya editor IDE, kutipan artistik, dan layout ramah pembaca.
 
-### 1. Database Configuration
-Ensure your local MySQL server is running. Create a new database named `db_publisher_media`.
-```sql
-CREATE DATABASE IF NOT EXISTS db_publisher_media;
+---
+
+## 👥 Matriks Hak Akses (RBAC Matrix)
+
+| Modul / Fungsionalitas Sistem | Tamu | Reader | Author | Editor | Admin |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| Membaca Konten Terbit (*Published*) | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Menggunakan Fitur Pencarian & Filter | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Melakukan Registrasi & Autentikasi | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Memberikan Like, Bookmark, & Komentar | X | ✓ | ✓ | ✓ | ✓ |
+| Menulis & Mengedit Artikel Pribadi (*Draft*) | X | X | ✓ | X | X |
+| Mengunggah Berkas PDF E-Book & Cover | X | X | ✓ | X | X |
+| Mengajukan Draf ke Redaksi (*Submit*) | X | X | ✓ | X | X |
+| Melihat Antrean Naskah Masuk (*Review Queue*) | X | X | X | ✓ | X |
+| Menyetujui Publikasi (*Publish*) | X | X | X | ✓ | X |
+| Mengembalikan Naskah & Menulis Revisi | X | X | X | ✓ | X |
+| Mengelola Akun Pengguna & Hak Akses | X | X | X | X | ✓ |
+
+---
+
+## 🛠️ Prasyarat System
+
+Pastikan perangkat Anda sudah terinstal:
+*   **PHP 8.2** atau lebih tinggi
+*   **Composer**
+*   **Node.js & NPM**
+*   **MySQL Server** (XAMPP, Laragon, Herd, dsb.)
+
+---
+
+## 📦 Panduan Instalasi Lokal
+
+Ikuti langkah-langkah di bawah ini untuk menjalankan aplikasi Aksara di server lokal Anda:
+
+### 1. Kloning & Masuk ke Direktori Proyek
+```bash
+git clone https://github.com/Rombon07/kabarkini-cms.git aksara
+cd aksara
 ```
 
-### 2. Install Dependencies
-Navigate into the project directory (`aksara`) and run:
+### 2. Instalasi Dependensi
+Instal pustaka backend (PHP) dan frontend (JS/CSS):
 ```bash
 composer install
 npm install
 ```
 
-### 3. Environment Setup
-The `.env` file should be configured to connect to `db_publisher_media` on `127.0.0.1`. If you have a specific database password, open `.env` and update `DB_PASSWORD=`.
+### 3. Konfigurasi Database (.env)
+1. Salin file contoh konfigurasi env:
+   ```bash
+   cp .env.example .env
+   ```
+2. Buat database baru bernama `db_publisher_media` di MySQL Anda.
+3. Buka file `.env` baru Anda dan sesuaikan konfigurasi database Anda (nama DB, username, password).
 
-### 4. Run Migrations & Seeders
-This will create all tables and populate the database with default categories, dummy articles, and test accounts.
+### 4. Jalankan Migrasi & Database Seeder
+Langkah ini akan membuat seluruh tabel, men-download file PDF asli dari internet, mengambil artikel dari Dev.to API, serta mendaftarkan akun uji coba secara otomatis.
 ```bash
 php artisan migrate:fresh --seed
 ```
 
-### 5. Storage Link
-Create the symbolic link to make your locally uploaded files accessible (optional as Aksara also features a fallback media controller).
+### 5. Hubungkan Folder Storage
 ```bash
 php artisan storage:link
 ```
 
-### 6. Build Assets & Start Server
-Build the Tailwind CSS assets:
+### 6. Jalankan Server Pengembangan
+Jalankan Vite asset bundler di terminal pertama:
 ```bash
-npm run build
+npm run dev
 ```
-*(Or `npm run dev` if you are actively making changes)*
-
-Then start the Laravel development server:
+Buka terminal baru di direktori yang sama dan jalankan server lokal Laravel:
 ```bash
 php artisan serve
 ```
 
-## 🧪 Testing the Application
+Aplikasi kini dapat diakses melalui browser di alamat: [**http://localhost:8000**](http://localhost:8000).
 
-1. **Public Portal:** Open `http://localhost:8000` in your browser.
-2. **Author Access:**
-   - Go to `http://localhost:8000/login`
-   - Email: `author@aksara.com`
-   - Password: `password`
-   - *Test creating an article or e-book and submitting it for review.*
-3. **Editor Access:**
-   - Go to `http://localhost:8000/login`
-   - Email: `editor@aksara.com`
-   - Password: `password`
-   - *Test reviewing the pending article, adding notes, or publishing.*
-4. **Reader Access:**
-   - Go to `http://localhost:8000/login`
-   - Email: `reader@aksara.com`
-   - Password: `password`
-   - *Test bookmarking, liking, and leaving comments on published articles.*
+---
+
+## 🧪 Akun Uji Coba (Test Accounts)
+
+Gunakan akun-akun berikut untuk masuk ke dashboard masing-masing peran melalui halaman `/login`:
+
+1.  **System Admin**
+    *   **Email:** `admin@aksara.com`
+    *   **Password:** `password`
+    *   *Fungsi:* Mengakses statistik platform, mengelola semua pengguna, mendaftarkan staf, dan mengubah hak akses (role).
+2.  **Editor (Redaksi)**
+    *   **Email:** `editor@aksara.com`
+    *   **Password:** `password`
+    *   *Fungsi:* Memantau antrean artikel masuk, memberikan catatan revisi, dan menyetujui penerbitan artikel/ebook.
+3.  **Author (Penulis)**
+    *   **Email:** `author@aksara.com`
+    *   **Password:** `password`
+    *   *Fungsi:* Menulis draf, mengunggah naskah E-book, dan mengirimkannya ke redaksi untuk diulas.
+4.  **General Reader (Pembaca)**
+    *   **Email:** `reader@aksara.com`
+    *   **Password:** `password`
+    *   *Fungsi:* Menyukai artikel secara langsung, meninggalkan tanggapan, dan menyimpan bacaan ke halaman Library pribadi.
