@@ -22,11 +22,15 @@ class InteractionController extends Controller
             $status = 'liked';
         }
 
-        // Mengembalikan response JSON untuk diolah oleh AJAX/Alpine.js di frontend
-        return response()->json([
-            'status' => $status,
-            'likes_count' => $article->likes()->count()
-        ]);
+        if (request()->wantsJson() || request()->ajax()) {
+            // Mengembalikan response JSON untuk diolah oleh AJAX/Alpine.js di frontend
+            return response()->json([
+                'status' => $status,
+                'likes_count' => $article->likes()->count()
+            ]);
+        }
+
+        return back();
     }
 
     // Fungsi ini digunakan untuk menyimpan artikel ke daftar bacaan user (Bookmark) atau menghapusnya.
@@ -44,11 +48,15 @@ class InteractionController extends Controller
             $status = 'saved';
         }
 
-        // Mengembalikan status terbaru untuk mengupdate UI
-        return response()->json([
-            'status' => $status,
-            'bookmarks_count' => $article->bookmarks()->count()
-        ]);
+        if (request()->wantsJson() || request()->ajax()) {
+            // Mengembalikan status terbaru untuk mengupdate UI
+            return response()->json([
+                'status' => $status,
+                'bookmarks_count' => $article->bookmarks()->count()
+            ]);
+        }
+
+        return back();
     }
 
     // Fungsi ini digunakan untuk menyimpan komentar baru dari user pada sebuah artikel.

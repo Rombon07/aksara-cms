@@ -1,3 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Article Formatting for Premium Reading Experience */
+.prose {
+    color: #374151 !important; /* Neutral dark gray for readable text */
+    font-size: 1.125rem;
+}
+
+.prose p {
+    margin-bottom: 1.5rem !important;
+    line-height: 1.8 !important;
+}
+
+/* Premium Code Blocks styling */
+.prose pre {
+    background-color: #0f172a !important; /* Slate 900 background */
+    color: #f8fafc !important;
+    border-radius: 12px !important;
+    padding: 1.25rem !important;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+    overflow-x: auto !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    border: 1px solid #1e293b !important;
+}
+
+.prose pre code {
+    background-color: transparent !important;
+    color: inherit !important;
+    font-size: 0.9em !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+/* Inline Code styling */
+.prose code {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    padding: 0.2rem 0.4rem !important;
+    border-radius: 6px !important;
+    font-size: 0.85em !important;
+    font-weight: 500 !important;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+/* Remove default backticks from inline code in Tailwind prose */
+.prose code::before,
+.prose code::after {
+    content: "" !important;
+}
+
+/* Premium Blockquotes */
+.prose blockquote {
+    font-style: italic !important;
+    border-left: 4px solid #6366f1 !important; /* Indigo accent border */
+    background-color: #f8fafc !important;
+    padding: 1rem 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 0 8px 8px 0 !important;
+    color: #475569 !important;
+}
+
+/* Dynamic images rendering */
+.prose img {
+    border-radius: 16px !important;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05) !important;
+    margin: 2rem auto !important;
+    max-height: 500px !important;
+    object-fit: cover !important;
+}
+

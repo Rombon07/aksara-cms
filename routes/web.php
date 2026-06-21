@@ -27,6 +27,8 @@ Route::get('/dashboard', function () {
         return redirect()->route('editor.index');
     } elseif ($role === 'author') {
         return redirect()->route('author.index');
+    } elseif ($role === 'admin') {
+        return redirect()->route('admin.dashboard');
     }
 
     // Default fallback untuk reader
@@ -60,6 +62,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/review', [EditorController::class, 'index'])->name('index');
         Route::post('/articles/{article}/publish', [EditorController::class, 'publish'])->name('publish');
         Route::post('/articles/{article}/revise', [EditorController::class, 'revise'])->name('revise');
+    });
+
+    // Admin Routes
+    Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+        Route::resource('users', \App\Http\Controllers\AdminController::class);
     });
 });
 

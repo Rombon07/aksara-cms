@@ -41,6 +41,9 @@ class Article extends Model
     public function getImageUrlAttribute()
     {
         if ($this->thumbnail) {
+            if (str_starts_with($this->thumbnail, 'http://') || str_starts_with($this->thumbnail, 'https://')) {
+                return $this->thumbnail;
+            }
             return url('media/' . $this->thumbnail);
         }
         
