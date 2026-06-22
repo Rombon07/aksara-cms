@@ -62,6 +62,10 @@
                                         @else
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Reader</span>
                                         @endif
+
+                                        @if($user->author_request_status === 'pending')
+                                            <span class="ml-1 px-2 inline-flex text-[10px] leading-5 font-semibold rounded-full bg-amber-100 text-amber-800 animate-pulse">Request Pending</span>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         {{ $user->created_at->format('M d, Y') }}

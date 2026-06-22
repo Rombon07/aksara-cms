@@ -118,4 +118,25 @@ class AdminController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }
+
+    /**
+     * Handle the author request approval/rejection.
+     */
+    public function handleRequest(User $user, $action)
+    {
+        if ($action === 'approve') {
+            $user->update([
+                'role' => 'author',
+                'author_request_status' => 'approved',
+            ]);
+            return redirect()->route('admin.users.index')->with('success', "Akses User {$user->name} berhasil dinaikkan menjadi Author.");
+        } elseif ($action === 'reject') {
+            $user->update([
+                'author_request_status' => 'rejected',
+            ]);
+            return redirect()->route('admin.users.index')->with('success', "Permintaan Author dari {$user->name} telah ditolak.");
+        }
+
+        return redirect()->back();
+    }
 }

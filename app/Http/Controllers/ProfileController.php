@@ -57,4 +57,34 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Handle user request to become an author.
+     */
+    public function requestAuthor(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'bio' => ['required', 'string', 'max:1000'],
+            'portfolio' => ['nullable', 'url', 'max:255'],
+        ]);
+
+        $user = $request->user();
+
+        if (in_array($user->role, ['author', 'editor', 'admin'])) {
+            return Redirect::route('profile.edit')->with('error', 'Anda sudah memiliki hak akses menulis.');
+        }
+
+        if ($user->author_request_status === 'pending') {
+            return Redirect::route('profile.edit', ['tab' => 'author-request'])->with('error', 'Permintaan Anda sedang ditinjau.');
+        }
+
+        $user->update([
+            'author_request_status' => 'pending',
+            'author_request_bio' => $request->bio,
+            'author_request_portfolio' => $request->portfolio,
+            'author_request_at' => now(),
+        ]);
+
+        return Redirect::route('profile.edit', ['tab' => 'author-request'])->with('success', 'Permintaan menjadi Author berhasil dikirim!');
+    }
 }

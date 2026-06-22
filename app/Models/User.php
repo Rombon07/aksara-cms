@@ -23,6 +23,10 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'author_request_status',
+        'author_request_bio',
+        'author_request_portfolio',
+        'author_request_at',
     ];
 
     /**

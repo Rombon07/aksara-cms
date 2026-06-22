@@ -32,7 +32,7 @@
 
                     <!-- Right: Actions -->
                     <div class="flex items-center space-x-6">
-                        <a href="{{ route('author.create') }}" class="text-gray-500 hover:text-gray-900 flex items-center space-x-1 transition">
+                        <a href="{{ auth()->check() ? (in_array(auth()->user()->role, ['author', 'admin', 'editor']) ? route('author.create') : route('profile.edit', ['tab' => 'author-request'])) : route('login') }}" class="text-gray-500 hover:text-gray-900 flex items-center space-x-1 transition">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             <span class="text-sm">Write</span>
                         </a>

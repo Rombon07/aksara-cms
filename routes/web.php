@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile/request-author', [ProfileController::class, 'requestAuthor'])->name('profile.request-author');
     // Reader Library (Daftar Bacaan)
     Route::get('/library', [\App\Http\Controllers\LibraryController::class, 'index'])->name('library');
 
@@ -67,6 +68,7 @@ Route::middleware('auth')->group(function () {
     // Admin Routes
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+        Route::post('/users/{user}/request/{action}', [\App\Http\Controllers\AdminController::class, 'handleRequest'])->name('users.handle-request');
         Route::resource('users', \App\Http\Controllers\AdminController::class);
     });
 });
